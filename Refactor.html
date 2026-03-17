@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Portfolio</title>
+
+<style>
+
+html{
+scroll-behavior:smooth;
+font-family: Arial;
+}
+
+body{
+margin:0;
+}
+
+nav{
+background:black;
+padding:15px;
+text-align:center;
+}
+
+nav a{
+color:white;
+margin:15px;
+text-decoration:none;
+}
+
+nav a:hover{
+color:yellow;
+}
+
+section{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+}
+
+#home{
+background:lightblue;
+}
+
+#about{
+background:lightblue;
+}
+
+#contact{
+background:lightwhite;
+}
+
+button{
+padding:10px 20px;
+border:none;
+background:black;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:red;
+}
+
+.dark{
+background:black;
+color:white;
+}
+
+form input{
+padding:10px;
+margin:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+<a href="#home">Home</a>
+<a href="#about">About</a>
+<a href="#contact">Contact</a>
+<button onclick="darkMode()">Dark Mode</button>
+</nav>
+
+<section id="home">
+<h1>Welcome To My Portfolio</h1>
+<p>I am learning Web Development</p>
+</section>
+
+<section id="about">
+<h1>About Me</h1>
+<p>BCA Student & Frontend Learner</p>
+</section>
+
+<section id="contact">
+<h1>Contact Me</h1>
+
+<form onsubmit="return validate()">
+<input type="text" id="name" placeholder="Enter Name">
+<br>
+<button type="submit">Submit</button>
+</form>
+
+</section>
+<script>
+document.addEventListener("DOMContentLoaded", function ()
+
+  const darkBtn = document.querySelector("nav button");
+
+  darkBtn.addEventListener("click", function () {
+    document.body.classList.toggle("dark");
+  });
+
+
+  const form = document.querySelector("form");
+  const nameInput = document.getElementById("name");
+
+  form.addEventListener("submit", function (e) {
+    const value = nameInput.value.trim();
+
+    if (!value) {
+      e.preventDefault();
+      alert("Please enter name");
+    }
+  });
+
+});
+</script>
+</body>
+</html>
