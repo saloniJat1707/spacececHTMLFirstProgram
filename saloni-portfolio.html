@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Saloni Jat | Smart Voice App</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #4facfe 100%);
+  min-height: 100vh;
+  padding: 30px 15px;
+}
+
+.container {
+  max-width: 620px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  background: rgba(255,255,255,0.97);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+/* Profile Card */
+.profile-card {
+  text-align: center;
+  background: linear-gradient(135deg, #fff 60%, #f0f4ff);
+}
+
+.avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4facfe, #764ba2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  margin: 0 auto 15px;
+  box-shadow: 0 5px 20px rgba(79,172,254,0.4);
+}
+
+.profile-card h1 { font-size: 26px; color: #2d2d2d; }
+.profile-card .role { color: #764ba2; font-weight: 600; margin: 5px 0; }
+.profile-card .bio { color: #888; font-size: 14px; margin-top: 8px; }
+
+.badges {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.badge {
+  background: linear-gradient(135deg, #4facfe, #764ba2);
+  color: white;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* TTS Card */
+.tts-card h2 {
+  color: #2d2d2d;
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+
+textarea {
+  width: 100%;
+  height: 110px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 2px solid #e0e0e0;
+  font-size: 15px;
+  resize: vertical;
+  transition: border 0.2s;
+  font-family: inherit;
+}
+
+textarea:focus { outline: none; border-color: #4facfe; }
+
+.char-count {
+  text-align: right;
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 4px;
+}
+
+.controls-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.control-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+select {
+  width: 100%;
+  padding: 9px;
+  border-radius: 10px;
+  border: 2px solid #e0e0e0;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+}
+
+.range-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+input[type="range"] {
+  flex: 1;
+  accent-color: #4facfe;
+  cursor: pointer;
+}
+
+.range-val {
+  font-size: 13px;
+  font-weight: 700;
+  color: #4facfe;
+  min-width: 28px;
+}
+
+.btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+button {
+  flex: 1;
+  padding: 12px 10px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.1s, opacity 0.2s;
+}
+
+button:active { transform: scale(0.97); }
+
+.btn-speak { background: linear-gradient(135deg, #4facfe, #007bff); color: white; }
+.btn-pause { background: linear-gradient(135deg, #f7971e, #ffd200); color: #333; }
+.btn-stop  { background: linear-gradient(135deg, #f953c6, #b91d73); color: white; }
+.btn-clear { background: #f0f0f0; color: #555; }
+
+/* Skills Card */
+.skills-card h2 { color: #2d2d2d; margin-bottom: 16px; font-size: 20px; }
+
+.skill { margin-bottom: 14px; }
+.skill-header { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; color: #444; margin-bottom: 6px; }
+
+.skill-bar {
+  height: 10px;
+  background: #eee;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.skill-fill {
+  height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #4facfe, #764ba2);
+  animation: fillBar 1.2s ease forwards;
+  width: 0;
+}
+
+@keyframes fillBar { to { width: var(--w); } }
+
+/* Footer */
+.footer-card {
+  text-align: center;
+  padding: 18px;
+  background: rgba(255,255,255,0.85);
+}
+
+.footer-card p { color: #888; font-size: 13px; }
+.footer-card a { color: #4facfe; text-decoration: none; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Profile -->
+  <div class="card profile-card">
+    <div class="avatar">👩‍💻</div>
+    <h1>Saloni Jat</h1>
+    <p class="role">BCA 1st Year · Web Developer</p>
+    <p class="bio">Passionate about building smart web apps with clean UI and modern tech.</p>
+    <div class="badges">
+      <span class="badge">🌐 HTML/CSS</span>
+      <span class="badge">⚡ JavaScript</span>
+      <span class="badge">🎤 Web APIs</span>
+      <span class="badge">🎨 UI Design</span>
+    </div>
+  </div>
+
+  <!-- TTS App -->
+  <div class="card tts-card">
+    <h2>🔊 Smart Text-to-Speech App</h2>
+
+    <textarea id="text" placeholder="Type your text here..." oninput="updateCount()"></textarea>
+    <div class="char-count"><span id="charCount">0</span> characters</div>
+
+    <div class="controls-grid">
+      <div class="control-group">
+        <label>🎤 Voice</label>
+        <select id="voiceSelect"></select>
+      </div>
+      <div class="control-group">
+        <label>🌐 Language Filter</label>
+        <select id="langFilter" onchange="filterVoices()">
+          <option value="">All Languages</option>
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label>🎚️ Speed: <span id="rateVal">1.0</span>x</label>
+        <div class="range-wrap">
+          <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1" oninput="rateVal.textContent=parseFloat(this.value).toFixed(1)">
+        </div>
+      </div>
+      <div class="control-group">
+        <label>🎵 Pitch: <span id="pitchVal">1.2</span></label>
+        <div class="range-wrap">
+          <input type="range" id="pitch" min="0.5" max="2" step="0.1" value="1.2" oninput="pitchVal.textContent=parseFloat(this.value).toFixed(1)">
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-speak" onclick="speakText()">▶ Speak</button>
+      <button class="btn-pause" onclick="togglePause()" id="pauseBtn">⏸ Pause</button>
+      <button class="btn-stop"  onclick="stopText()">⏹ Stop</button>
+      <button class="btn-clear" onclick="clearText()">🗑 Clear</button>
+    </div>
+  </div>
+
+  <!-- Skills -->
+  <div class="card skills-card">
+    <h2>🛠️ Skills</h2>
+    <div class="skill">
+      <div class="skill-header"><span>HTML & CSS</span><span>85%</span></div>
+      <div class="skill-bar"><div class="skill-fill" style="--w:85%"></div></div>
+    </div>
+    <div class="skill">
+      <div class="skill-header"><span>JavaScript</span><span>70%</span></div>
+      <div class="skill-bar"><div class="skill-fill" style="--w:70%"></div></div>
+    </div>
+    <div class="skill">
+      <div class="skill-header"><span>UI/UX Design</span><span>75%</span></div>
+      <div class="skill-bar"><div class="skill-fill" style="--w:75%"></div></div>
+    </div>
+    <div class="skill">
+      <div class="skill-header"><span>Web APIs</span><span>65%</span></div>
+      <div class="skill-bar"><div class="skill-fill" style="--w:65%"></div></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="card footer-card">
+    <p>Made with ❤️ by <strong>Saloni Jat</strong> · BCA 2024</p>
+  </div>
+
+</div>
+
+<script>
+let voices = [], allVoices = [], paused = false;
+
+function loadVoices() {
+  allVoices = speechSynthesis.getVoices();
+  filterVoices();
+}
+
+function filterVoices() {
+  const lang = document.getElementById("langFilter").value;
+  voices = lang ? allVoices.filter(v => v.lang.startsWith(lang)) : allVoices;
+
+  const select = document.getElementById("voiceSelect");
+  select.innerHTML = voices.map((v, i) =>
+    `<option value="${i}">${v.name} (${v.lang})</option>`
+  ).join("");
+
+  const fi = voices.findIndex(v =>
+    ["female","zira","google uk english female"].some(k => v.name.toLowerCase().includes(k))
+  );
+  if (fi !== -1) select.value = fi;
+}
+
+speechSynthesis.onvoiceschanged = loadVoices;
+
+function speakText() {
+  const text = document.getElementById("text").value.trim();
+  if (!text) { alert("Please enter some text!"); return; }
+
+  speechSynthesis.cancel();
+  paused = false;
+  document.getElementById("pauseBtn").textContent = "⏸ Pause";
+
+  const speech = new SpeechSynthesisUtterance(text);
+  speech.voice  = voices[document.getElementById("voiceSelect").value];
+  speech.rate   = parseFloat(document.getElementById("rate").value);
+  speech.pitch  = parseFloat(document.getElementById("pitch").value);
+  speechSynthesis.speak(speech);
+}
+
+function togglePause() {
+  const btn = document.getElementById("pauseBtn");
+  if (!paused) {
+    speechSynthesis.pause();
+    paused = true;
+    btn.textContent = "▶ Resume";
+  } else {
+    speechSynthesis.resume();
+    paused = false;
+    btn.textContent = "⏸ Pause";
+  }
+}
+
+function stopText() {
+  speechSynthesis.cancel();
+  paused = false;
+  document.getElementById("pauseBtn").textContent = "⏸ Pause";
+}
+
+function clearText() {
+  document.getElementById("text").value = "";
+  document.getElementById("charCount").textContent = "0";
+}
+
+function updateCount() {
+  document.getElementById("charCount").textContent = document.getElementById("text").value.length;
+}
+</script>
+
+</body>
+</html>
